@@ -2,12 +2,6 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const box = 20;
-const endOverlay = document.getElementById("endOverlay");
-if (endOverlay) {
-  endOverlay.style.display = "flex";
-  endOverlay.innerText = `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
-}
-
 let snake = [{ x: 9 * box, y: 10 * box }];
 let direction = "RIGHT";
 let food = {
@@ -120,9 +114,7 @@ function resetGame() {
   document.getElementById("scoreDisplay").innerText = `分數：${score}`;
   document.getElementById("restartButton").style.display = "none";
   document.getElementById("endOverlay").style.display = "none";
-  document.getElementById("endOverlay").style.display = "flex";
-  document.getElementById("endMessage").innerText =
-  `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
 
   game = setInterval(drawGame, 150);
 }
+

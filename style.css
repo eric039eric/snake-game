@@ -67,4 +67,5 @@ body {
   flex-direction: column;
   gap: 20px;
   z-index: 10;
+  position: fixed;
 }
