@@ -83,6 +83,11 @@ body {
   animation: fadeIn 1s ease forwards;
 }
 
+#startOverlay {
+  flex-direction: column;
+  gap: 20px;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
