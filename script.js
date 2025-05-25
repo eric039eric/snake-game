@@ -13,6 +13,7 @@ let startTime = null;
 let elapsedTime = 0;
 let timerInterval = null;
 
+let game = null;
 
 document.addEventListener("keydown", changeDirection);
 
@@ -26,7 +27,6 @@ document.querySelectorAll(".dir-btn").forEach(button => {
   });
 });
 
-
 function changeDirection(e) {
   if (e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
   if (e.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
@@ -38,17 +38,14 @@ function drawGame() {
   ctx.fillStyle = "#222";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // 畫蛇
   for (let i = 0; i < snake.length; i++) {
     ctx.fillStyle = i === 0 ? "#0f0" : "#7cfc00";
     ctx.fillRect(snake[i].x, snake[i].y, box, box);
   }
 
-  // 畫食物
   ctx.fillStyle = "#f00";
   ctx.fillRect(food.x, food.y, box, box);
 
-  // 移動蛇
   let head = { x: snake[0].x, y: snake[0].y };
 
   if (direction === "LEFT") head.x -= box;
@@ -56,35 +53,44 @@ function drawGame() {
   if (direction === "RIGHT") head.x += box;
   if (direction === "DOWN") head.y += box;
 
-  // 吃到食物
   if (head.x === food.x && head.y === food.y) {
     score++;
+    document.getElementById("scoreDisplay").innerText = `分數：${score}`;
     food = {
       x: Math.floor(Math.random() * 19) * box,
       y: Math.floor(Math.random() * 19) * box
     };
   } else {
-    snake.pop(); // 沒吃就移除尾巴
+    snake.pop();
   }
 
-  // 撞牆或撞自己
   if (
-  head.x < 0 || head.x >= canvas.width ||
-  head.y < 0 || head.y >= canvas.height ||
-  snake.slice(1).some(seg => seg.x === head.x && seg.y === head.y)
-) {
-  clearInterval(game);
-  game = null;
-  document.getElementById("restartButton").style.display = "inline-block";
-
-  document.getElementById("endOverlay").style.display = "flex";
-document.getElementById("endOverlay").innerText =
-  `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
-}
-
+    head.x < 0 || head.x >= canvas.width ||
+    head.y < 0 || head.y >= canvas.height ||
+    snake.slice(1).some(seg => seg.x === head.x && seg.y === head.y)
+  ) {
+    clearInterval(game);
+    game = null;
+    clearInterval(timerInterval);
+    document.getElementById("restartButton").style.display = "inline-block";
+    document.getElementById("endOverlay").style.display = "flex";
+    document.getElementById("endOverlay").innerText =
+      `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
+    return;
+  }
 
   snake.unshift(head);
 }
+
+document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("startButton").style.display = "none";
+  document.getElementById("startOverlay").style.display = "none";
+  resetGame();
+});
+
+document.getElementById("restartButton").addEventListener("click", resetGame);
+
+document.getElementById("scoreDisplay").innerText = `分數：${score}`;
 
 function resetGame() {
   snake = [{ x: 9 * box, y: 10 * box }];
@@ -105,26 +111,8 @@ function resetGame() {
     document.getElementById("timeDisplay").innerText = `時間：${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }, 1000);
 
-  game = setInterval(drawGame, 150);
+  document.getElementById("scoreDisplay").innerText = `分數：${score}`;
   document.getElementById("restartButton").style.display = "none";
   document.getElementById("endOverlay").style.display = "none";
-  document.getElementById("scoreDisplay").innerText = `分數：0`;
+  game = setInterval(drawGame, 150);
 }
-
-
-
-let game = null;
-
-document.getElementById("startButton").addEventListener("click", () => {
-  document.getElementById("startButton").style.display = "none";
-  document.getElementById("startOverlay").style.display = "none";
-  resetGame();
-});
-
-
-
-document.getElementById("scoreDisplay").innerText = `分數：${score}`;
-
-document.getElementById("restartButton").addEventListener("click", resetGame);
-
-clearInterval(timerInterval);
