@@ -64,5 +64,37 @@ function drawGame() {
 
   snake.unshift(head);
 }
+let touchStartX = 0;
+let touchStartY = 0;
 
-let game = setInterval(drawGame, 150);
+canvas.addEventListener("touchstart", function (e) {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+
+canvas.addEventListener("touchend", function (e) {
+  const touch = e.changedTouches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // 水平滑動
+    if (dx > 0 && direction !== "LEFT") direction = "RIGHT";
+    else if (dx < 0 && direction !== "RIGHT") direction = "LEFT";
+  } else {
+    // 垂直滑動
+    if (dy > 0 && direction !== "UP") direction = "DOWN";
+    else if (dy < 0 && direction !== "DOWN") direction = "UP";
+  }
+});
+
+let game = null;
+
+document.getElementById("startButton").addEventListener("click", () => {
+  if (!game) {
+    game = setInterval(drawGame, 150);
+    document.getElementById("startButton").style.display = "none";
+  }
+});
+
