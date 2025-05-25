@@ -20,3 +20,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
+#restartButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #ff0;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}

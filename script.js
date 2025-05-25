@@ -54,13 +54,15 @@ function drawGame() {
 
   // 撞牆或撞自己
   if (
-    head.x < 0 || head.x >= canvas.width ||
-    head.y < 0 || head.y >= canvas.height ||
-    snake.some(seg => seg.x === head.x && seg.y === head.y)
-  ) {
-    clearInterval(game);
-    alert("遊戲結束！你的分數是：" + score);
-  }
+  head.x < 0 || head.x >= canvas.width ||
+  head.y < 0 || head.y >= canvas.height ||
+  snake.slice(1).some(seg => seg.x === head.x && seg.y === head.y)
+) {
+  clearInterval(game);
+  game = null;
+  document.getElementById("restartButton").style.display = "inline-block";
+}
+
 
   snake.unshift(head);
 }
@@ -89,6 +91,21 @@ canvas.addEventListener("touchend", function (e) {
   }
 });
 
+function resetGame() {
+  snake = [{ x: 9 * box, y: 10 * box }];
+  direction = "RIGHT";
+  food = {
+    x: Math.floor(Math.random() * 19) * box,
+    y: Math.floor(Math.random() * 19) * box
+  };
+  score = 0;
+
+  if (game) clearInterval(game);
+  game = setInterval(drawGame, 150);
+  document.getElementById("restartButton").style.display = "none";
+}
+
+
 let game = null;
 
 document.getElementById("startButton").addEventListener("click", () => {
@@ -98,3 +115,4 @@ document.getElementById("startButton").addEventListener("click", () => {
   }
 });
 
+document.getElementById("restartButton").addEventListener("click", resetGame);
