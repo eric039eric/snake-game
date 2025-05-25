@@ -76,6 +76,10 @@ function drawGame() {
   clearInterval(game);
   game = null;
   document.getElementById("restartButton").style.display = "inline-block";
+
+  document.getElementById("endOverlay").style.display = "flex";
+document.getElementById("endOverlay").innerText =
+  `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
 }
 
 
@@ -90,30 +94,33 @@ function resetGame() {
     y: Math.floor(Math.random() * 19) * box
   };
   score = 0;
+  startTime = Date.now();
+  elapsedTime = 0;
+  clearInterval(timerInterval);
 
-  if (game) clearInterval(game);
+  timerInterval = setInterval(() => {
+    elapsedTime = Date.now() - startTime;
+    const seconds = Math.floor(elapsedTime / 1000) % 60;
+    const minutes = Math.floor(elapsedTime / 60000);
+    document.getElementById("timeDisplay").innerText = `時間：${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }, 1000);
+
   game = setInterval(drawGame, 150);
   document.getElementById("restartButton").style.display = "none";
+  document.getElementById("endOverlay").style.display = "none";
+  document.getElementById("scoreDisplay").innerText = `分數：0`;
 }
+
 
 
 let game = null;
 
 document.getElementById("startButton").addEventListener("click", () => {
-  if (!game) {
-    game = setInterval(drawGame, 150);
-    document.getElementById("startButton").style.display = "none";
-  }
-});
-
-document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("startButton").style.display = "none";
   document.getElementById("startOverlay").style.display = "none";
   resetGame();
 });
 
-document.getElementById("endOverlay").style.display = "flex";
-document.getElementById("endOverlay").innerText =
-  `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
 
 
 document.getElementById("scoreDisplay").innerText = `分數：${score}`;
@@ -121,4 +128,3 @@ document.getElementById("scoreDisplay").innerText = `分數：${score}`;
 document.getElementById("restartButton").addEventListener("click", resetGame);
 
 clearInterval(timerInterval);
-
