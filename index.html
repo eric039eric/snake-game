@@ -9,8 +9,16 @@
 <body>
   <h1>🐍 貪食蛇遊戲</h1>
   <button id="startButton">開始遊戲</button>
+<div id="infoPanel">
+  <span id="scoreDisplay">分數：0</span>
+  <span id="timeDisplay">時間：00:00</span>
+</div>
+
+<div id="startOverlay">點擊開始遊戲</div>
+<div id="endOverlay" style="display: none;"></div>
+
   <canvas id="gameCanvas" width="400" height="400"></canvas>
-  <div id="mobile-controls">
+<div id="mobile-controls">
   <button class="dir-btn" data-dir="UP">↑</button><br />
   <button class="dir-btn" data-dir="LEFT">←</button>
   <button class="dir-btn" data-dir="DOWN">↓</button>

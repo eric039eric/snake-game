@@ -9,6 +9,10 @@ let food = {
   y: Math.floor(Math.random() * 19) * box
 };
 let score = 0;
+let startTime = null;
+let elapsedTime = 0;
+let timerInterval = null;
+
 
 document.addEventListener("keydown", changeDirection);
 
@@ -102,4 +106,19 @@ document.getElementById("startButton").addEventListener("click", () => {
   }
 });
 
+document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("startOverlay").style.display = "none";
+  resetGame();
+});
+
+document.getElementById("endOverlay").style.display = "flex";
+document.getElementById("endOverlay").innerText =
+  `遊戲結束！\n分數：${score} 分\n時間：${Math.floor(elapsedTime / 1000)} 秒`;
+
+
+document.getElementById("scoreDisplay").innerText = `分數：${score}`;
+
 document.getElementById("restartButton").addEventListener("click", resetGame);
+
+clearInterval(timerInterval);
+
