@@ -10,3 +10,6 @@
 ## 開發環境
 - GitHub Codespaces
 - Live Server
+
+## 遊戲網址
+- https://eric039eric.github.io/snake-game/
