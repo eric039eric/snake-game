@@ -31,3 +31,26 @@ body {
   cursor: pointer;
   margin-top: 20px;
 }
+
+#mobile-controls {
+  display: none;
+  margin-top: 20px;
+}
+
+.dir-btn {
+  padding: 15px 20px;
+  margin: 5px;
+  font-size: 24px;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* 只在寬度小於 768px 裝置（手機）上顯示 */
+@media (max-width: 768px) {
+  #mobile-controls {
+    display: block;
+  }
+}
